@@ -4,6 +4,8 @@ This repository contains exported Dataiku machine learning models. Below is a co
 
 ## Models Overview
 
+### Lead Models
+
 | Model | Algorithm | Target Variable | R² | MAPE | Training Dataset |
 |-------|-----------|-----------------|-----|------|------------------|
 | predict-app_target | Random Forest | app_target | 0.79 | 2.7% | IncentivePointMatrix_with_arrivals_clean_for_jake |
@@ -11,9 +13,17 @@ This repository contains exported Dataiku machine learning models. Below is a co
 | predict-netcontracts_target | OLS | netcontracts_target | 0.81 | 14.6% | Contract_model_paired_down_to_final_squished_flags |
 | predict-tourcount_onsite_target | OLS | tourcount_onsite_target | 0.87 | 5.7% | WDW_Lead_Tours_pairedDownToFinal_Squished_Flags |
 
+### Member Models
+
+| Model | Algorithm | Target Variable | R² | MAPE | Training Dataset |
+|-------|-----------|-----------------|-----|------|------------------|
+| predict-app_target_addon | Extra Trees | app_target_addon | 0.30 | 7.6% | all_tables_join_FINAL_SET_FOR_JAKE |
+| predict-member_nws_wdw | OLS | member_NWS_WDW | 0.99 | 6.2% | all_tables_join_FINAL_SET_FOR_JAKE |
+| wdw-total-contracts-model | Extra Trees | net_contracts_total | 0.76 | 26.8% | all_tables_join_FINAL_SET_FOR_JAKE |
+
 ---
 
-## Detailed Model Information
+## Lead Models - Detailed Information
 
 ### 1. predict-app_target-weights
 
@@ -180,11 +190,153 @@ This repository contains exported Dataiku machine learning models. Below is a co
 
 ---
 
+## Member Models - Detailed Information
+
+### 5. predict-app_target_addon-weights
+
+| Attribute | Value |
+|-----------|-------|
+| **Model Type** | Extra Trees Regression |
+| **Model Name** | Extra trees (s60) - v1 |
+| **Target Variable** | `app_target_addon` |
+| **Training Dataset** | `all_tables_join_FINAL_SET_FOR_JAKE` |
+| **Trained Date** | 2025-11-14 |
+| **Dataiku DSS Version** | 14.1.1 |
+
+#### Performance Metrics
+
+| Metric | Value |
+|--------|-------|
+| R² | 0.2979 |
+| RMSE | 13.99 |
+| MAE | 11.53 |
+| MAPE | 7.63% |
+| Pearson Correlation | 0.5684 |
+| Explained Variance Score | 0.3067 |
+
+#### Dataiku Origin
+
+- **Origin:** Exported from Analysis
+- **Full Model ID:** `A-DVCFINANCEFORECAST-wWTCtdp1-oAjBUBQV-s60-pp1-m1`
+- **Project Key:** `DVCFINANCEFORECAST`
+- **Analysis ID:** `wWTCtdp1`
+
+#### Hyperparameters
+
+- Trees: 100
+- Max Depth: 8
+- Min Samples: 1
+
+#### Features Used
+
+- intent_to_buy_home
+- live_150_incentive_amount_min
+- live_150_incentive_amount_max
+- direct_live_product_price_per_point
+- fiscalmonth_5 (dummy encoded)
+
+---
+
+### 6. predict-member_nws_wdw-weights (MEMBER)
+
+| Attribute | Value |
+|-----------|-------|
+| **Model Type** | Ordinary Least Squares (OLS) Regression |
+| **Model Name** | Ordinary Least Squares (Just Total Contracts & APP) |
+| **Target Variable** | `member_NWS_WDW` |
+| **Training Dataset** | `all_tables_join_FINAL_SET_FOR_JAKE` |
+| **Trained Date** | 2025-11-02 |
+| **Session Name** | Just Total Contracts & APP |
+| **Dataiku DSS Version** | 14.1.1 |
+
+#### Performance Metrics
+
+| Metric | Value |
+|--------|-------|
+| R² | 0.9946 |
+| RMSE | 279,086.43 |
+| MAE | 199,164.14 |
+| MAPE | 6.21% |
+| Pearson Correlation | 0.9981 |
+| Explained Variance Score | 0.9949 |
+
+#### Features Used
+
+- app_target_addon
+- net_contracts_total
+
+---
+
+### 7. wdw-total-contracts-model-weights
+
+| Attribute | Value |
+|-----------|-------|
+| **Model Type** | Extra Trees Regression |
+| **Model Name** | Extra trees (s139) - v1 |
+| **Target Variable** | `net_contracts_total` |
+| **Training Dataset** | `all_tables_join_FINAL_SET_FOR_JAKE` |
+| **Trained Date** | 2025-11-13 |
+| **Dataiku DSS Version** | 14.1.1 |
+
+#### Performance Metrics
+
+| Metric | Value |
+|--------|-------|
+| R² | 0.7627 |
+| RMSE | 43.68 |
+| MAE | 26.76 |
+| MAPE | 26.76% |
+| Pearson Correlation | 0.9172 |
+| Explained Variance Score | 0.7677 |
+
+#### Dataiku Origin
+
+- **Origin:** Exported from Analysis
+- **Full Model ID:** `A-DVCFINANCEFORECAST-E6xQ4Qyc-xtQ7AbXe-s139-pp1-m1`
+- **Project Key:** `DVCFINANCEFORECAST`
+- **Analysis ID:** `E6xQ4Qyc`
+
+#### Hyperparameters
+
+- Trees: 100
+- Max Depth: 8
+- Min Samples: 1
+
+#### Features Used
+
+- unique_members_contacted_sales_virtual
+- net_contracts_finance_pct
+- unique_members_contacted_marketing
+- loans_with_5.01_to_10_years_remaining_count
+- average_daily_rate_lag_2_weeks
+- member_outbound_calls_per_gscc
+- third_party_resale_price_per_point_avg
+- unique_members_contacted_sales_inmarket
+- unique_dvc_email_clicks_sum
+- average_daily_rate_lag_4_weeks
+- pct_arrivals_members_los_5_to_6
+- rofr_number_of_contracts_purchased_by_dvc
+- pct_members_borrowed_one_year_in_past_5_years
+- all_use_year_borrowing_amount_avg
+- distinct_members_borrowing_count
+- total_tours_lag4
+- live_150_incentive_amount_min
+- member_calls_per_guide
+- live_150_incentive_amount_max
+- financed_loans_closed
+- direct_live_product_price_per_point
+- Derived features: total_tours_lag4^2, sqrt(total_tours_lag4), log(total_tours_lag4)
+- new_welcome_home2 (dummy encoded)
+- era_ramp_up (dummy encoded)
+- era_15_year (dummy encoded)
+- new_product_on_sale_week (dummy encoded)
+- new_product_month_after_launch (dummy encoded)
+
+---
+
 ## Technical Details
 
-### Common Configuration
-
-All models share the following configuration:
+### Lead Models Configuration
 
 - **Dataiku DSS Version:** 13.4.2
 - **Backend:** PY_MEMORY (Python in-memory)
@@ -192,9 +344,7 @@ All models share the following configuration:
 - **Weighting:** No weighting
 - **Calibration:** No calibration
 
-### Python Environment
-
-Models were trained with:
+#### Python Environment (Lead Models)
 
 - Python: 3.6.8
 - pandas: 1.1.5
@@ -204,9 +354,29 @@ Models were trained with:
 - xgboost: 1.5.2
 - statsmodels: 0.12.2
 
+### Member Models Configuration
+
+- **Dataiku DSS Version:** 14.1.1
+- **Backend:** PY_MEMORY (Python in-memory)
+- **Task Type:** PREDICTION (Regression)
+- **Weighting:** No weighting
+- **Calibration:** No calibration
+
+#### Python Environment (Member Models)
+
+- Python: 3.9.21
+- pandas: 2.2.3
+- scikit-learn: 1.5.2
+- scipy: 1.13.1
+- lightgbm: 4.6.0
+- xgboost: 1.7.6
+- statsmodels: 0.14.5
+
 ---
 
 ## Dataiku Origin Information
+
+### Lead Models
 
 | Model | Has Origin Metadata | Project | Analysis ID |
 |-------|---------------------|---------|-------------|
@@ -215,7 +385,15 @@ Models were trained with:
 | predict-netcontracts_target | Yes | DVCFINANCEFORECAST | RcJhx5qG |
 | predict-tourcount_onsite_target | No | Unknown | Unknown |
 
-Only the `predict-netcontracts_target` model contains explicit origin metadata (`sm_origin.json`) indicating it was exported from an Analysis in the **DVCFINANCEFORECAST** project. The other models do not have this file, so their exact flow/analysis location cannot be determined from the exported artifacts alone.
+### Member Models
+
+| Model | Has Origin Metadata | Project | Analysis ID |
+|-------|---------------------|---------|-------------|
+| predict-app_target_addon | Yes | DVCFINANCEFORECAST | wWTCtdp1 |
+| predict-member_nws_wdw | No | Unknown | Unknown |
+| wdw-total-contracts-model | Yes | DVCFINANCEFORECAST | E6xQ4Qyc |
+
+All models with origin metadata were exported from Analyses in the **DVCFINANCEFORECAST** project in Dataiku.
 
 ---
 
@@ -232,6 +410,7 @@ predict-*-weights.zip
 │   ├── train_info.json        # Training information
 │   ├── dss_pipeline_meta.json # DSS pipeline metadata
 │   ├── clf.pkl                # Serialized model
+│   ├── sm_origin.json         # Dataiku origin info (if available)
 │   └── ... (other files)
 ├── sample.py                  # Sample prediction script
 └── requirements.txt           # Python dependencies
